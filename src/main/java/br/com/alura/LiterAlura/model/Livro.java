@@ -5,9 +5,6 @@ import java.time.LocalDate;
 public class Livro {
     // Atributos
     private String tituloLivro;
-    private String nomeAutor;
-    private LocalDate anoNascimento;
-    private LocalDate anoFalecimento;
     private String idiomaLivro;
     private Integer numeroDownloads;
 
@@ -41,35 +38,12 @@ public class Livro {
         this.idiomaLivro = idiomaLivro;
     }
 
-    public LocalDate getAnoFalecimento() {
-        return anoFalecimento;
-    }
-
-    public void setAnoFalecimento(LocalDate anoFalecimento) {
-        this.anoFalecimento = anoFalecimento;
-    }
-
-    public LocalDate getAnoNascimento() {
-        return anoNascimento;
-    }
-
-    public void setAnoNascimento(LocalDate anoNascimento) {
-        this.anoNascimento = anoNascimento;
-    }
-
-    public String getNomeAutor() {
-        return nomeAutor;
-    }
-
-    public void setNomeAutor(String nomeAutor) {
-        this.nomeAutor = nomeAutor;
-    }
 
     @Override
     public String toString() {
         return "------ LIVRO ------\n" +
                 "Livro: '" + tituloLivro + "\n" +
-                "Autor: '" + nomeAutor + "\n" +
+//                "Autor: '" + nomeAutor + "\n" +
                 "Idioma: " + idiomaLivro + "\n" +
                 "Downloads: " + numeroDownloads + "\n" +
                 "--------------------" ;
