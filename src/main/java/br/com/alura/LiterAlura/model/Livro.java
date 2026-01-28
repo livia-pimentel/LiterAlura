@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Livro {
     // Atributos
     private String tituloLivro;
-    private String idiomaLivro;
+    private Idioma idiomaLivro;
     private Integer numeroDownloads;
 
     // Construtores
@@ -30,11 +30,11 @@ public class Livro {
         this.numeroDownloads = numeroDownloads;
     }
 
-    public String getIdiomaLivro() {
+    public Idioma getIdiomaLivro() {
         return idiomaLivro;
     }
 
-    public void setIdiomaLivro(String idiomaLivro) {
+    public void setIdiomaLivro(Idioma idiomaLivro) {
         this.idiomaLivro = idiomaLivro;
     }
 

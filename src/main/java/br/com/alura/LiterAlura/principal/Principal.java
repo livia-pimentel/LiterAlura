@@ -1,7 +1,9 @@
 package br.com.alura.LiterAlura.principal;
 
+import br.com.alura.LiterAlura.model.Idioma;
 import br.com.alura.LiterAlura.model.Livro;
 import br.com.alura.LiterAlura.service.ConsumoApi;
+import jakarta.persistence.Id;
 
 import java.util.Scanner;
 
@@ -90,15 +92,15 @@ public class Principal {
 
     private void listarIdiomaDoLivro() {
         System.out.println("Insira o idioma para realizar a busca: ");
-
-        var opcaoIdioma = """
+        System.out.println( """
                           es - espanhol
                           en - inglês
                           fr - francês
                           pt - português
-                          """;
+                          """);
+        var opcaoIdioma = scanner.nextLine().trim();
+        Idioma idioma = Idioma.fromDescricaoIdioma(opcaoIdioma);
 
-        System.out.println(opcaoIdioma);
 
         // DEPOIS DE ESCOLHER O IDIOMA DEVE RETORNAR A LISTA DE LIVROS NO IDIOMA DESEJADO
         // SE NÃO HOUVER LIVROS NO IDIOMA DESEJADO, RETORNAR UMA MENSAGEM QUE NÃO CONSTAM LIVROS DO IDIOMA NO BANCO
