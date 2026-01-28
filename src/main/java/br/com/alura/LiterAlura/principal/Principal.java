@@ -5,6 +5,7 @@ import br.com.alura.LiterAlura.model.Idioma;
 import br.com.alura.LiterAlura.model.Livro;
 import br.com.alura.LiterAlura.service.ConsumoApi;
 import br.com.alura.LiterAlura.service.ConverteDados;
+import br.com.alura.LiterAlura.service.DadosResposta;
 import jakarta.persistence.Id;
 
 import java.util.ArrayList;
@@ -74,8 +75,14 @@ public class Principal {
         System.out.println("Digite o nome do livro para busca: ");
         var nomeLivro = scanner.nextLine();
         var json = consumoApi.obterDados(ENDERECO + nomeLivro.replace(" ", "+"));
-        DadosLivros dados = conversor.obterDados(json, DadosLivros.class);
-        return dados;
+
+        // Converte para a lista "results"
+        DadosResposta dados = conversor.obterDados(json, DadosResposta.class);
+
+        // Se houver resultados pega o primeiro da lista
+        return dados.resultadosLivros().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Livro não encontrado!"));
     }
 
     private void listarLivros() {
