@@ -1,7 +1,7 @@
 package br.com.alura.LiterAlura.model;
 
 public enum Idioma {
-    ESPANHOL("es", "Espanol"),
+    ESPANHOL("es", "Espanhol"),
     FRANCES("fr", "Francês"),
     INGLES("en", "Inglês"),
     PORTUGUES("pt", "Português");

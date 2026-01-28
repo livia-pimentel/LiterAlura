@@ -5,6 +5,7 @@ import jakarta.persistence.Enumerated;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Livro {
     // Atributos
@@ -15,6 +16,18 @@ public class Livro {
 
     // Construtores
     public Livro() {
+
+    }
+
+    public Livro(DadosLivros dadosLivros) {
+        this.tituloLivro = dadosLivros.tituloLivro();
+        this.idiomaLivro = Idioma.fromString(dadosLivros.idiomaLivro().get(0));
+        this.numeroDownloads = dadosLivros.numeroDownloads();
+
+        // Transformando a lista de DadosAutor em uma lista de Autor
+        this.autor = dadosLivros.autor().stream()
+                .map(dados -> new Autor(dados))
+                .collect(Collectors.toList());
 
     }
 

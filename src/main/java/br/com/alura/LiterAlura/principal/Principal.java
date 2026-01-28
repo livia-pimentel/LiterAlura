@@ -1,17 +1,23 @@
 package br.com.alura.LiterAlura.principal;
 
+import br.com.alura.LiterAlura.model.DadosLivros;
 import br.com.alura.LiterAlura.model.Idioma;
 import br.com.alura.LiterAlura.model.Livro;
 import br.com.alura.LiterAlura.service.ConsumoApi;
+import br.com.alura.LiterAlura.service.ConverteDados;
 import jakarta.persistence.Id;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Principal {
     // Atributos
     private Scanner scanner = new Scanner(System.in);
     private ConsumoApi consumoApi = new ConsumoApi();
+    private ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "https://gutendex.com//books?search=";
+    private List<DadosLivros> dadosLivros = new ArrayList<>();
 
     // Metodos
     public void exibeMenu() {
@@ -59,16 +65,17 @@ public class Principal {
     }
 
     private void buscarLivro() {
-        DadosLivro dados = getDadosLivro();
+        DadosLivros dados = getDadosLivros();
         Livro livro = new Livro(dados);
-        dadosLivros.add(dados);
-//        System.out.println("------ LIVRO ------");
-//        // TITULO DO LIVRO
-//        // AUTOR
-//        // IDIOMA
-//        // NUMERO DE DOWNLOADS
-//        System.out.println("-------------------");
         System.out.println(dados);
+    }
+
+    private DadosLivros getDadosLivros() {
+        System.out.println("Digite o nome do livro para busca: ");
+        var nomeLivro = scanner.nextLine();
+        var json = consumoApi.obterDados(ENDERECO + nomeLivro.replace(" ", "+"));
+        DadosLivros dados = conversor.obterDados(json, DadosLivros.class);
+        return dados;
     }
 
     private void listarLivros() {

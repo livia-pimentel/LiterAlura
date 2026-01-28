@@ -11,6 +11,12 @@ public class Autor {
 
     }
 
+    public Autor(DadosAutor dadosAutor) {
+        this.nomeAutor = dadosAutor.nomeAutor();
+        this.anoNascimento = dadosAutor.anoNascimento();
+        this. anoFalecimento = dadosAutor.anoFalecimento();
+    }
+
     // Getters e Setters
     public String getNomeAutor() {
         return nomeAutor;
