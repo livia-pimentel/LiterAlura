@@ -90,6 +90,6 @@ public class Livro {
                 "Autor: " + (nomeDosAutor.isEmpty() ? "Desconhecido" : nomeDosAutor)+ "\n" +
                 "Idioma: " + idiomaLivro.getCodigoDoIdiomaApi() + "\n" +
                 "Downloads: " + numeroDownloads + "\n" +
-                "--------------------" ;
+                "--------------------\n" ;
     }
 }

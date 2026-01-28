@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Principal {
@@ -93,8 +94,19 @@ public class Principal {
     }
 
     private DadosLivros getDadosLivros() {
-        System.out.println("Digite o nome do livro para busca: ");
+        System.out.println("\nDigite o nome do livro para busca: ");
         var nomeLivro = scanner.nextLine();
+
+        // Verifica se tem o livro no banco de dados
+        Optional<Livro> livroNoBanco = repositorio.findByTituloLivroIgnoreCase(nomeLivro);
+
+        if (livroNoBanco.isPresent()) {
+            System.out.println("\nLivro encontrado no banco de dados: ");
+            System.out.println(livroNoBanco.get());
+            return null; // Indica para o buscarLivro que não precisa fazer a requisição
+        }
+
+        // Se não tiver no banco local, faz a requisição
         var nomeCodificado = URLEncoder.encode(nomeLivro, StandardCharsets.UTF_8);
         var json = consumoApi.obterDados(ENDERECO + nomeCodificado);
 
