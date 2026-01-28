@@ -1,5 +1,6 @@
 package br.com.alura.LiterAlura.principal;
 
+import br.com.alura.LiterAlura.model.Autor;
 import br.com.alura.LiterAlura.model.DadosLivros;
 import br.com.alura.LiterAlura.model.Idioma;
 import br.com.alura.LiterAlura.model.Livro;
@@ -7,6 +8,9 @@ import br.com.alura.LiterAlura.service.ConsumoApi;
 import br.com.alura.LiterAlura.service.ConverteDados;
 import br.com.alura.LiterAlura.service.DadosResposta;
 
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -66,19 +70,29 @@ public class Principal {
 
     private void buscarLivro() {
         DadosLivros dados = getDadosLivros();
-        Livro livro = new Livro(dados);
-        System.out.println(livro);
+        if (dados != null) {
+            Livro livro = new Livro(dados);
+            // Garante que a tabela intermediária seja preenchida
+            List<Autor> autoresAux = new ArrayList<>(livro.getAutor());
+            autoresAux.forEach(a -> {
+                        a.adicionarLivro(livro);
+                    });
+            System.out.println(livro);
+        }
     }
 
     private DadosLivros getDadosLivros() {
         System.out.println("Digite o nome do livro para busca: ");
         var nomeLivro = scanner.nextLine();
-        var json = consumoApi.obterDados(ENDERECO + nomeLivro.replace(" ", "+"));
+        var nomeCodificado = URLEncoder.encode(nomeLivro, StandardCharsets.UTF_8);
+        var json = consumoApi.obterDados(ENDERECO + nomeCodificado);
 
         // Testa o json recebido
 //        System.out.println("JSON recebido: " + json);
-        if (json == null || json.isBlank()) {
-            throw new RuntimeException("A API retornou um conteúdo vazio!");
+        if (json == null || json.isBlank() || json.contains("\"results\":[]")) {
+            System.out.println("Nenhum livro encontrado para: " + nomeLivro);
+            System.out.println("Digite o nome completo do livro.\n");
+            return null; // Retorna null em vez de estourar erro no terminal
         }
 
         // Converte para a lista "results" - Desserialização
@@ -87,7 +101,7 @@ public class Principal {
         // Se houver resultados pega o primeiro da lista
         return dados.resultadosLivros().stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Livro não encontrado!"));
+                .orElse(null);
     }
 
     private void listarLivros() {
