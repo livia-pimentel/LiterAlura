@@ -1,11 +1,23 @@
 package br.com.alura.LiterAlura.model;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name="autores")
 public class Autor {
     // Atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String nomeAutor;
     private Integer anoNascimento;
     private Integer anoFalecimento;
-
+    @ManyToMany(mappedBy = "autor")
+    private List<Livro> livros = new ArrayList<>();
     // Construtores
     public Autor() {
 
@@ -42,6 +54,22 @@ public class Autor {
         this.anoNascimento = anoNascimento;
     }
 
+    public List<Livro> getLivros() {
+        return livros;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLivros(List<Livro> livros) {
+        this.livros = livros;
+    }
+
     // Metodo
     public String getNomeFormatado() {
         if (this.nomeAutor != null && this.nomeAutor.contains(",")) {
@@ -49,6 +77,14 @@ public class Autor {
             return partes[1].trim() + " " + partes[0].trim();
         }
         return this.nomeAutor;
+    }
+
+    public void adicionarLivro(Livro livro) {
+        // Adiciona livro na lista de livro do autor
+        this.livros.add(livro);
+
+        // Pega o livro adicionado e adiciona ao autor
+        livro.getAutor().add(this);
     }
 
     @Override

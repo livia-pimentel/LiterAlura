@@ -1,22 +1,43 @@
 package br.com.alura.LiterAlura.model;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name="livros")
 public class Livro {
     // Atributos
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String tituloLivro;
+    @Enumerated(EnumType.STRING)
     private Idioma idiomaLivro;
     private Integer numeroDownloads;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Autor> autor;
 
     // Construtores
     public Livro() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Autor> getAutor() {
+        return autor;
+    }
+
+    public void setAutor(List<Autor> autor) {
+        this.autor = autor;
     }
 
     public Livro(DadosLivros dadosLivros) {

@@ -6,7 +6,6 @@ import br.com.alura.LiterAlura.model.Livro;
 import br.com.alura.LiterAlura.service.ConsumoApi;
 import br.com.alura.LiterAlura.service.ConverteDados;
 import br.com.alura.LiterAlura.service.DadosResposta;
-import jakarta.persistence.Id;
 
 import java.util.ArrayList;
 import java.util.List;
