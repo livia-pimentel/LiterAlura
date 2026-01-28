@@ -1,5 +1,6 @@
 package br.com.alura.LiterAlura.principal;
 
+import br.com.alura.LiterAlura.model.Livro;
 import br.com.alura.LiterAlura.service.ConsumoApi;
 
 import java.util.Scanner;
