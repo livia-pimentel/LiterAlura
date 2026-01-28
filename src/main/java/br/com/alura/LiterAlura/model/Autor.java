@@ -42,6 +42,15 @@ public class Autor {
         this.anoNascimento = anoNascimento;
     }
 
+    // Metodo
+    public String getNomeFormatado() {
+        if (this.nomeAutor != null && this.nomeAutor.contains(",")) {
+            String[] partes = this.nomeAutor.split(",");
+            return partes[1].trim() + " " + partes[0].trim();
+        }
+        return this.nomeAutor;
+    }
+
     @Override
     public String toString() {
         return  "Autor: '" + nomeAutor + "\n" +

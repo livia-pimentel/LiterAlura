@@ -68,7 +68,7 @@ public class Principal {
     private void buscarLivro() {
         DadosLivros dados = getDadosLivros();
         Livro livro = new Livro(dados);
-        System.out.println(dados);
+        System.out.println(livro);
     }
 
     private DadosLivros getDadosLivros() {
@@ -77,7 +77,7 @@ public class Principal {
         var json = consumoApi.obterDados(ENDERECO + nomeLivro.replace(" ", "+"));
 
         // Testa o json recebido
-        System.out.println("JSON recebido: " + json);
+//        System.out.println("JSON recebido: " + json);
         if (json == null || json.isBlank()) {
             throw new RuntimeException("A API retornou um conteúdo vazio!");
         }

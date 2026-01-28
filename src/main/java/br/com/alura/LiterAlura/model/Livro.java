@@ -59,10 +59,15 @@ public class Livro {
 
     @Override
     public String toString() {
+        // 1 - Busca autor na lista
+        String nomeDosAutor = autor.stream()
+                .map(Autor::getNomeFormatado)
+                .collect(Collectors.joining(", "));
+
         return "------ LIVRO ------\n" +
-                "Livro: '" + tituloLivro + "\n" +
-//                "Autor: '" + nomeAutor + "\n" +
-                "Idioma: " + idiomaLivro + "\n" +
+                "Livro: " + tituloLivro + "\n" +
+                "Autor: " + (nomeDosAutor.isEmpty() ? "Desconhecido" : nomeDosAutor)+ "\n" +
+                "Idioma: " + idiomaLivro.getCodigoDoIdiomaApi() + "\n" +
                 "Downloads: " + numeroDownloads + "\n" +
                 "--------------------" ;
     }

@@ -33,4 +33,8 @@ public enum Idioma {
         }
         throw new IllegalArgumentException("Idioma não encontrado: " + text);
     }
+
+    public String getCodigoDoIdiomaApi() {
+        return codigoDoIdiomaApi;
+    }
 }
