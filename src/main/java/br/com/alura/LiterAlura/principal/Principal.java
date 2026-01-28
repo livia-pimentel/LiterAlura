@@ -17,7 +17,7 @@ public class Principal {
     private Scanner scanner = new Scanner(System.in);
     private ConsumoApi consumoApi = new ConsumoApi();
     private ConverteDados conversor = new ConverteDados();
-    private final String ENDERECO = "https://gutendex.com//books?search=";
+    private final String ENDERECO = "https://gutendex.com/books?search=";
     private List<DadosLivros> dadosLivros = new ArrayList<>();
 
     // Metodos
@@ -76,7 +76,13 @@ public class Principal {
         var nomeLivro = scanner.nextLine();
         var json = consumoApi.obterDados(ENDERECO + nomeLivro.replace(" ", "+"));
 
-        // Converte para a lista "results"
+        // Testa o json recebido
+        System.out.println("JSON recebido: " + json);
+        if (json == null || json.isBlank()) {
+            throw new RuntimeException("A API retornou um conteúdo vazio!");
+        }
+
+        // Converte para a lista "results" - Desserialização
         DadosResposta dados = conversor.obterDados(json, DadosResposta.class);
 
         // Se houver resultados pega o primeiro da lista
