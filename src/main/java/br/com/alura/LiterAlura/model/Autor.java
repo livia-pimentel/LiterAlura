@@ -1,12 +1,10 @@
 package br.com.alura.LiterAlura.model;
 
-import java.time.LocalDate;
-
 public class Autor {
     // Atributos
     private String nomeAutor;
-    private LocalDate anoNascimento;
-    private LocalDate anoFalecimento;
+    private Integer anoNascimento;
+    private Integer anoFalecimento;
 
     // Construtores
     public Autor() {
@@ -22,19 +20,19 @@ public class Autor {
         this.nomeAutor = nomeAutor;
     }
 
-    public LocalDate getAnoFalecimento() {
+    public Integer getAnoFalecimento() {
         return anoFalecimento;
     }
 
-    public void setAnoFalecimento(LocalDate anoFalecimento) {
+    public void setAnoFalecimento(Integer anoFalecimento) {
         this.anoFalecimento = anoFalecimento;
     }
 
-    public LocalDate getAnoNascimento() {
+    public Integer getAnoNascimento() {
         return anoNascimento;
     }
 
-    public void setAnoNascimento(LocalDate anoNascimento) {
+    public void setAnoNascimento(Integer anoNascimento) {
         this.anoNascimento = anoNascimento;
     }
 

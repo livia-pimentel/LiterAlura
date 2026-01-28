@@ -1,0 +1,10 @@
+package br.com.alura.LiterAlura.model;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record DadosAutor(@JsonAlias("name") String nomeAutor,
+                         @JsonAlias("birth_year") Integer anoNacimento,
+                         @JsonAlias("death_year") Integer anoFalecimento) {
+}
