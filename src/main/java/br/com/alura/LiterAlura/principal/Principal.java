@@ -4,6 +4,7 @@ import br.com.alura.LiterAlura.model.Autor;
 import br.com.alura.LiterAlura.model.DadosLivros;
 import br.com.alura.LiterAlura.model.Idioma;
 import br.com.alura.LiterAlura.model.Livro;
+import br.com.alura.LiterAlura.repository.LivroRepository;
 import br.com.alura.LiterAlura.service.ConsumoApi;
 import br.com.alura.LiterAlura.service.ConverteDados;
 import br.com.alura.LiterAlura.service.DadosResposta;
@@ -22,6 +23,12 @@ public class Principal {
     private ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "https://gutendex.com/books?search=";
     private List<DadosLivros> dadosLivros = new ArrayList<>();
+    private LivroRepository repositorio;
+
+    // Construtor
+    public Principal(LivroRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     // Metodos
     public void exibeMenu() {
@@ -77,6 +84,7 @@ public class Principal {
             autoresAux.forEach(a -> {
                         a.adicionarLivro(livro);
                     });
+            repositorio.save(livro);
             System.out.println(livro);
         }
     }
