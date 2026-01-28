@@ -12,10 +12,7 @@ import br.com.alura.LiterAlura.service.DadosResposta;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Principal {
     // Atributos
@@ -128,7 +125,11 @@ public class Principal {
     }
 
     private void listarLivros() {
-        // DEVE RETORNAR UMA LISTA DE TODOS OS LIVROS QUE FORAM ADICIONADOS AO BANCO
+        List<Livro> livrosNoBanco = repositorio.findAll();
+
+        livrosNoBanco.stream()
+                .sorted(Comparator.comparing(Livro::getTituloLivro))
+                .forEach(System.out::println);
 
     }
 
