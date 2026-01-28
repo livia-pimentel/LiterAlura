@@ -1,10 +1,14 @@
 package br.com.alura.LiterAlura.principal;
 
+import br.com.alura.LiterAlura.service.ConsumoApi;
+
 import java.util.Scanner;
 
 public class Principal {
     // Atributos
     private Scanner scanner = new Scanner(System.in);
+    private ConsumoApi consumoApi = new ConsumoApi();
+    private final String ENDERECO = "https://gutendex.com//books?search=";
 
     // Metodos
     public void exibeMenu() {
@@ -52,12 +56,16 @@ public class Principal {
     }
 
     private void buscarLivro() {
-        System.out.println("------ LIVRO ------");
-        // TITULO DO LIVRO
-        // AUTOR
-        // IDIOMA
-        // NUMERO DE DOWNLOADS
-        System.out.println("-------------------");
+        DadosLivro dados = getDadosLivro();
+        Livro livro = new Livro(dados);
+        dadosLivros.add(dados);
+//        System.out.println("------ LIVRO ------");
+//        // TITULO DO LIVRO
+//        // AUTOR
+//        // IDIOMA
+//        // NUMERO DE DOWNLOADS
+//        System.out.println("-------------------");
+        System.out.println(dados);
     }
 
     private void listarLivros() {
