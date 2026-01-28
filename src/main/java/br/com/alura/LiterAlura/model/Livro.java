@@ -24,6 +24,19 @@ public class Livro {
 
     }
 
+    public Livro(DadosLivros dadosLivros) {
+        this.tituloLivro = dadosLivros.tituloLivro();
+        this.idiomaLivro = Idioma.fromString(dadosLivros.idiomaLivro().get(0));
+        this.numeroDownloads = dadosLivros.numeroDownloads();
+
+        // Transformando a lista de DadosAutor em uma lista de Autor
+        this.autor = dadosLivros.autor().stream()
+                .map(dados -> new Autor(dados))
+                .collect(Collectors.toList());
+
+    }
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -40,19 +53,6 @@ public class Livro {
         this.autor = autor;
     }
 
-    public Livro(DadosLivros dadosLivros) {
-        this.tituloLivro = dadosLivros.tituloLivro();
-        this.idiomaLivro = Idioma.fromString(dadosLivros.idiomaLivro().get(0));
-        this.numeroDownloads = dadosLivros.numeroDownloads();
-
-        // Transformando a lista de DadosAutor em uma lista de Autor
-        this.autor = dadosLivros.autor().stream()
-                .map(dados -> new Autor(dados))
-                .collect(Collectors.toList());
-
-    }
-
-    // Getters e Setters
     public String getTituloLivro() {
         return tituloLivro;
     }

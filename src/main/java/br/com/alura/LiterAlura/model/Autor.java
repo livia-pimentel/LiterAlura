@@ -18,13 +18,23 @@ public class Autor {
     private Integer anoFalecimento;
     @ManyToMany(mappedBy = "autor")
     private List<Livro> livros = new ArrayList<>();
+
     // Construtores
     public Autor() {
 
     }
 
     public Autor(DadosAutor dadosAutor) {
-        this.nomeAutor = dadosAutor.nomeAutor();
+        // Nome vindo da API
+        String nomeAutorApi = dadosAutor.nomeAutor();
+
+        // Verifica se tem vírgula
+        if (nomeAutorApi != null && nomeAutorApi.contains(",")) {
+            String[] partes = nomeAutorApi.split(",");
+            this.nomeAutor = partes[1].trim() + " " + partes[0].trim();
+        } else {
+            this.nomeAutor = nomeAutorApi;
+        }
         this.anoNascimento = dadosAutor.anoNascimento();
         this. anoFalecimento = dadosAutor.anoFalecimento();
     }

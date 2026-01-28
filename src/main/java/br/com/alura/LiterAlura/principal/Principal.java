@@ -81,6 +81,9 @@ public class Principal {
             Livro livro = new Livro(dados);
             // Garante que a tabela intermediária seja preenchida
             List<Autor> autoresAux = new ArrayList<>(livro.getAutor());
+            // Lima lista original para evitar duplicação
+            livro.getAutor().clear();
+            // Adiciona no banco
             autoresAux.forEach(a -> {
                         a.adicionarLivro(livro);
                     });
