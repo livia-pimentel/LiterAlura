@@ -1,12 +1,17 @@
 package br.com.alura.LiterAlura.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public class Livro {
     // Atributos
     private String tituloLivro;
     private Idioma idiomaLivro;
     private Integer numeroDownloads;
+    private List<Autor> autor;
 
     // Construtores
     public Livro() {
