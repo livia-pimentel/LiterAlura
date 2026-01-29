@@ -185,9 +185,18 @@ public class Principal {
     }
 
     private void listarAutoresVivos() {
-        // DEVE RETORNAR OS AUTORES VIVOS NO ANO DESEJADO
         System.out.println("Insira o ano que deseja pesquisar: ");
         var ano = scanner.nextInt();
+        scanner.nextLine();
+
+        List<Autor> autoresVivos = autorRepository.buscarAutoresVivosNoAno(ano);
+
+        if (autoresVivos.isEmpty()) {
+            System.out.println("\nNenhum autor vivo encontrado para o ano " + ano);
+        } else {
+            System.out.println("\nAutores vivos em " + ano + " : ");
+            autoresVivos.forEach(System.out::println);
+        }
     }
 
     private void listarIdiomaDoLivro() {
