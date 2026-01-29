@@ -58,9 +58,9 @@ public class Principal {
                 case 1:
                     buscarLivro();
                     break;
-//                case 2:
-//                    listarLivros();
-//                    break;
+                case 2:
+                    listarLivros();
+                    break;
 //                case 3:
 //                    listarAutores();
 //                    break;
@@ -123,19 +123,19 @@ public class Principal {
                 .orElse(null);
     }
 
-//    private void listarLivros() {
-//        entityManager.clear();
-//        List<Livro> livrosNoBanco = repositorio.findAllComAutores();
-//
-//        if (livrosNoBanco.isEmpty()) {
-//            System.out.println("Nenhum livro registrado no banco de dados");
-//        } else {
-//            // Ordena e exibe usando o toString
-//            livrosNoBanco.stream()
-//                    .sorted(Comparator.comparing(Livro::getTituloLivro))
-//                    .forEach(System.out::println);
-//        }
-//    }
+    private void listarLivros() {
+        // Solicita a lista para o Service
+        List<Livro> livrosNoBanco = livroService.listarTodosOsLivros();
+
+        if (livrosNoBanco.isEmpty()) {
+            System.out.println("Nenhum livro registrado no banco de dados");
+        } else {
+            // Ordena e exibe usando o toString
+            livrosNoBanco.stream()
+                    .sorted(Comparator.comparing(Livro::getTituloLivro))
+                    .forEach(System.out::println);
+        }
+    }
 //
 //    private void listarAutores() {
 //        List<Autor> autoresNoBanco = autorRepository.findAll();

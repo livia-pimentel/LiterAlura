@@ -60,4 +60,9 @@ public class LivroService {
     public Optional<Livro> buscarLivroPeloTitulo(String titulo) {
         return livroRepository.findByTituloLivroIgnoreCase(titulo);
     }
+
+    public List<Livro> listarTodosOsLivros() {
+        entityManager.clear(); // Limpa o cache
+        return livroRepository.findAllComAutores();
+    }
 }
