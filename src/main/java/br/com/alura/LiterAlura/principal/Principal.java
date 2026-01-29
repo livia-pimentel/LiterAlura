@@ -61,9 +61,9 @@ public class Principal {
                 case 2:
                     listarLivros();
                     break;
-//                case 3:
-//                    listarAutores();
-//                    break;
+                case 3:
+                    listarAutores();
+                    break;
 //                case 4:
 //                    listarAutoresVivos();
 //                    break;
@@ -136,16 +136,20 @@ public class Principal {
                     .forEach(System.out::println);
         }
     }
-//
-//    private void listarAutores() {
-//        List<Autor> autoresNoBanco = autorRepository.findAll();
-//
-//        autoresNoBanco.stream()
-//                .sorted(Comparator.comparing(Autor::getNomeAutor))
-//                .forEach(System.out::println);
-//
-//    }
-//
+
+    private void listarAutores() {
+        // Solicita lista de autores ao Service
+        List<Autor> autoresNoBanco = livroService.listarTodosOsAutores();
+
+        if (autoresNoBanco.isEmpty()) {
+            System.out.println("\nNenhum autor registrado no banco de dados");
+        } else {
+            autoresNoBanco.stream()
+                    .sorted(Comparator.comparing(Autor::getNomeAutor))
+                    .forEach(System.out::println);
+        }
+    }
+
 //    private void listarAutoresVivos() {
 //        System.out.println("Insira o ano que deseja pesquisar: ");
 //        var ano = scanner.nextInt();

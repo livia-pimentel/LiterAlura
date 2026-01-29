@@ -65,4 +65,9 @@ public class LivroService {
         entityManager.clear(); // Limpa o cache
         return livroRepository.findAllComAutores();
     }
+
+    public List<Autor> listarTodosOsAutores() {
+        entityManager.clear(); // Limpa o cache
+        return autorRepository.findAllComLivros();
+    }
 }
