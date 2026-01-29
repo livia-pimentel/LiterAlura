@@ -64,9 +64,9 @@ public class Principal {
                 case 3:
                     listarAutores();
                     break;
-//                case 4:
-//                    listarAutoresVivos();
-//                    break;
+                case 4:
+                    listarAutoresVivos();
+                    break;
 //                case 5:
 //                    listarIdiomaDoLivro();
 //                    break;
@@ -150,20 +150,27 @@ public class Principal {
         }
     }
 
-//    private void listarAutoresVivos() {
-//        System.out.println("Insira o ano que deseja pesquisar: ");
-//        var ano = scanner.nextInt();
-//        scanner.nextLine();
-//
-//        List<Autor> autoresVivos = autorRepository.buscarAutoresVivosNoAno(ano);
-//
-//        if (autoresVivos.isEmpty()) {
-//            System.out.println("\nNenhum autor vivo encontrado para o ano " + ano);
-//        } else {
-//            System.out.println("\nAutores vivos em " + ano + " : ");
-//            autoresVivos.forEach(System.out::println);
-//        }
-//    }
+    private void listarAutoresVivos() {
+        System.out.println("Insira o ano que deseja pesquisar: ");
+
+        try {
+            var ano = scanner.nextInt();
+            scanner.nextLine(); // Limpa o buffer do scanner
+
+            // Chama o serviço passando o parâmetro
+            List<Autor> autoresVivos = livroService.listarAutoresVivosNoAno(ano);
+
+            if (autoresVivos.isEmpty()) {
+                System.out.println("\nNenhum autor vivo encontrado para o ano " + ano);
+            } else {
+                System.out.println("\nAutores vivos em " + ano + " : ");
+                autoresVivos.forEach(System.out::println);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("\nErro: Por favor, insira um número válido para o ano.");
+            scanner.nextLine(); // Limpa o buffer em caso de erro
+        }
+    }
 //
 //    private void listarIdiomaDoLivro() {
 //        System.out.println("Insira o idioma para realizar a busca: ");

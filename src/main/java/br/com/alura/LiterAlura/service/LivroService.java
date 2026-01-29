@@ -70,4 +70,8 @@ public class LivroService {
         entityManager.clear(); // Limpa o cache
         return autorRepository.findAllComLivros();
     }
+
+    public List<Autor> listarAutoresVivosNoAno(Integer ano) {
+        return autorRepository.buscarAutoresVivosNoAno(ano);
+    }
 }
