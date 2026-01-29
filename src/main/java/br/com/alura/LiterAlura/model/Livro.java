@@ -87,7 +87,7 @@ public class Livro {
 
         return "------ LIVRO ------\n" +
                 "Livro: " + tituloLivro + "\n" +
-                "Autor: " + (nomeDosAutor.isEmpty() ? "Desconhecido" : nomeDosAutor)+ "\n" +
+                "Autor(es): " + (nomeDosAutor.isEmpty() ? "Desconhecido" : nomeDosAutor)+ "\n" +
                 "Idioma: " + idiomaLivro.getCodigoDoIdiomaApi() + "\n" +
                 "Downloads: " + numeroDownloads + "\n" +
                 "--------------------\n" ;

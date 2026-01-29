@@ -3,7 +3,9 @@ package br.com.alura.LiterAlura.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -18,7 +20,7 @@ public class Autor {
     private Integer anoNascimento;
     private Integer anoFalecimento;
     @ManyToMany(mappedBy = "autor", fetch = FetchType.EAGER)
-    private List<Livro> livros = new ArrayList<>();
+    private Set<Livro> livros = new HashSet<>();
 
     // Construtores
     public Autor() {
@@ -65,7 +67,7 @@ public class Autor {
         this.anoNascimento = anoNascimento;
     }
 
-    public List<Livro> getLivros() {
+    public Set<Livro> getLivros() {
         return livros;
     }
 
@@ -77,7 +79,7 @@ public class Autor {
         this.id = id;
     }
 
-    public void setLivros(List<Livro> livros) {
+    public void setLivros(Set<Livro> livros) {
         this.livros = livros;
     }
 

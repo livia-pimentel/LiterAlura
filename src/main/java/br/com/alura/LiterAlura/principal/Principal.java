@@ -9,12 +9,15 @@ import br.com.alura.LiterAlura.repository.LivroRepository;
 import br.com.alura.LiterAlura.service.ConsumoApi;
 import br.com.alura.LiterAlura.service.ConverteDados;
 import br.com.alura.LiterAlura.service.DadosResposta;
+import jakarta.persistence.EntityManager;
+import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+@Component
 public class Principal {
     // Atributos
     private Scanner scanner = new Scanner(System.in);
@@ -24,11 +27,13 @@ public class Principal {
     private List<DadosLivros> dadosLivros = new ArrayList<>();
     private LivroRepository repositorio;
     private AutorRepository autorRepository;
+    private EntityManager entityManager;
 
     // Construtor
-    public Principal(LivroRepository repositorio, AutorRepository autorRepository) {
+    public Principal(LivroRepository repositorio, AutorRepository autorRepository, EntityManager entityManager) {
         this.repositorio = repositorio;
         this.autorRepository = autorRepository;
+        this.entityManager = entityManager;
     }
 
     // Metodos
@@ -97,18 +102,28 @@ public class Principal {
                         Optional<Autor> autorNoBanco = autorRepository.findByNomeAutorIgnoreCase(a.getNomeAutor());
 
                         if (autorNoBanco.isPresent()) {
-                            // Se o autor já existe, vinculamos ao livro salvo
+                            // Se existe, pegamos o autor do banco
                             Autor autorExistente = autorNoBanco.get();
+
+                            // Vincula no banco (tabela intermediária)
                             autorExistente.adicionarLivro(livroSalvo);
-                            autorRepository.save(autorExistente); // Atualiza a tabela de ligação
+                            autorRepository.save(autorExistente);
                         } else {
                             // Se for novo salva o autor e vincula
                             a.adicionarLivro(livroSalvo);
-                            autorRepository.save(a);
+                            Autor autorNovo = autorRepository.save(a);
                         }
                     });
-            System.out.println("\nLivro salvo com sucesso\n");
-            System.out.println(livroSalvo);
+            // Força a gravação imediata no banco
+            repositorio.saveAndFlush(livroSalvo);
+
+            // Limpeza de sessão (cache de memória)
+            entityManager.clear();
+
+            repositorio.findByIdComAutores(livroSalvo.getId()).ifPresent(l -> {
+                System.out.println("\nLivro salvo com sucesso\n");
+                System.out.println(l);
+            });
         }
     }
 
@@ -147,12 +162,17 @@ public class Principal {
     }
 
     private void listarLivros() {
-        List<Livro> livrosNoBanco = repositorio.findAll();
+        entityManager.clear();
+        List<Livro> livrosNoBanco = repositorio.findAllComAutores();
 
-        livrosNoBanco.stream()
-                .sorted(Comparator.comparing(Livro::getTituloLivro))
-                .forEach(System.out::println);
-
+        if (livrosNoBanco.isEmpty()) {
+            System.out.println("Nenhum livro registrado no banco de dados");
+        } else {
+            // Ordena e exibe usando o toString
+            livrosNoBanco.stream()
+                    .sorted(Comparator.comparing(Livro::getTituloLivro))
+                    .forEach(System.out::println);
+        }
     }
 
     private void listarAutores() {
