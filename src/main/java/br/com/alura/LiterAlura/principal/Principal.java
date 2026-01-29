@@ -4,6 +4,7 @@ import br.com.alura.LiterAlura.model.Autor;
 import br.com.alura.LiterAlura.model.DadosLivros;
 import br.com.alura.LiterAlura.model.Idioma;
 import br.com.alura.LiterAlura.model.Livro;
+import br.com.alura.LiterAlura.repository.AutorRepository;
 import br.com.alura.LiterAlura.repository.LivroRepository;
 import br.com.alura.LiterAlura.service.ConsumoApi;
 import br.com.alura.LiterAlura.service.ConverteDados;
@@ -22,10 +23,12 @@ public class Principal {
     private final String ENDERECO = "https://gutendex.com/books?search=";
     private List<DadosLivros> dadosLivros = new ArrayList<>();
     private LivroRepository repositorio;
+    private AutorRepository autorRepository;
 
     // Construtor
-    public Principal(LivroRepository repositorio) {
+    public Principal(LivroRepository repositorio, AutorRepository autorRepository) {
         this.repositorio = repositorio;
+        this.autorRepository = autorRepository;
     }
 
     // Metodos
@@ -77,16 +80,35 @@ public class Principal {
         DadosLivros dados = getDadosLivros();
         if (dados != null) {
             Livro livro = new Livro(dados);
+
             // Garante que a tabela intermediária seja preenchida
             List<Autor> autoresAux = new ArrayList<>(livro.getAutor());
+
             // Lima lista original para evitar duplicação
             livro.getAutor().clear();
+
+            // Salva livro vazio para gerar o id para evitar conflitos de cascata com autores existentes
+            Livro livroSalvo = repositorio.save(livro);
+
             // Adiciona no banco
             autoresAux.forEach(a -> {
-                        a.adicionarLivro(livro);
+
+                        // Veririfca se o autor existe no banco
+                        Optional<Autor> autorNoBanco = autorRepository.findByNomeAutorIgnoreCase(a.getNomeAutor());
+
+                        if (autorNoBanco.isPresent()) {
+                            // Se o autor já existe, vinculamos ao livro salvo
+                            Autor autorExistente = autorNoBanco.get();
+                            autorExistente.adicionarLivro(livroSalvo);
+                            autorRepository.save(autorExistente); // Atualiza a tabela de ligação
+                        } else {
+                            // Se for novo salva o autor e vincula
+                            a.adicionarLivro(livroSalvo);
+                            autorRepository.save(a);
+                        }
                     });
-            repositorio.save(livro);
-            System.out.println(livro);
+            System.out.println("\nLivro salvo com sucesso\n");
+            System.out.println(livroSalvo);
         }
     }
 
@@ -134,11 +156,12 @@ public class Principal {
     }
 
     private void listarAutores() {
-        // DEVE RETORNAR OS DADOS DE TODOS OS AUTORES DO BANCO
-        // NOME DO AUTOR
-        // ANO DE NASCIMENTO
-        // ANOS DE FALECIMENTO
-        // LIVROS DO AUTOR (UMA ARRAY)
+        List<Autor> autoresNoBanco = autorRepository.findAll();
+
+        autoresNoBanco.stream()
+                .sorted(Comparator.comparing(Autor::getNomeAutor))
+                .forEach(System.out::println);
+
     }
 
     private void listarAutoresVivos() {
