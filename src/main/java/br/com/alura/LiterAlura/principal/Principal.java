@@ -207,12 +207,20 @@ public class Principal {
                           fr - francês
                           pt - português
                           """);
-        var opcaoIdioma = scanner.nextLine().trim();
-        Idioma idioma = Idioma.fromDescricaoIdioma(opcaoIdioma);
+        var opcaoIdioma = scanner.nextLine().trim().toLowerCase();
+        
+        try {
+            Idioma idioma = Idioma.fromString(opcaoIdioma);
+            List<Livro> livrosPorIdioma = repositorio.findByIdiomaLivro(idioma);
 
+            if (livrosPorIdioma.isEmpty()) {
+                System.out.println("\nNão existem livros registrados no idioma: " + opcaoIdioma);
+            } else {
+                livrosPorIdioma.forEach(System.out::println);
+            }
 
-        // DEPOIS DE ESCOLHER O IDIOMA DEVE RETORNAR A LISTA DE LIVROS NO IDIOMA DESEJADO
-        // SE NÃO HOUVER LIVROS NO IDIOMA DESEJADO, RETORNAR UMA MENSAGEM QUE NÃO CONSTAM LIVROS DO IDIOMA NO BANCO
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nOpção de idioma inválida! Escolha entre es, en, fr ou pt\n");
+        }
     }
-
 }

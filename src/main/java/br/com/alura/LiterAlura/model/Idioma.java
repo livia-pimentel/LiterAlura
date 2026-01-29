@@ -22,18 +22,8 @@ public enum Idioma {
                 return idioma;
             }
         }
-        throw new IllegalArgumentException("Idioma não encontrado: " + text);
+        throw new IllegalArgumentException("Idioma não encontrado: " + text + "\n");
     }
-
-    public static Idioma fromDescricaoIdioma(String text) {
-        for (Idioma idioma : Idioma.values()) {
-            if (idioma.descricaoIdioma.equalsIgnoreCase(text)) {
-                return idioma;
-            }
-        }
-        throw new IllegalArgumentException("Idioma não encontrado: " + text);
-    }
-
     public String getCodigoDoIdiomaApi() {
         return codigoDoIdiomaApi;
     }
