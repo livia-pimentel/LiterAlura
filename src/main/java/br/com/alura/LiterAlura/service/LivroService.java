@@ -2,6 +2,7 @@ package br.com.alura.LiterAlura.service;
 
 import br.com.alura.LiterAlura.model.Autor;
 import br.com.alura.LiterAlura.model.DadosLivros;
+import br.com.alura.LiterAlura.model.Idioma;
 import br.com.alura.LiterAlura.model.Livro;
 import br.com.alura.LiterAlura.repository.AutorRepository;
 import br.com.alura.LiterAlura.repository.LivroRepository;
@@ -73,5 +74,10 @@ public class LivroService {
 
     public List<Autor> listarAutoresVivosNoAno(Integer ano) {
         return autorRepository.buscarAutoresVivosNoAno(ano);
+    }
+
+    public List<Livro> listarLivrosPorIdioma(Idioma idioma) {
+        entityManager.clear(); // Limpa o cache
+        return livroRepository.findByIdiomaLivro(idioma);
     }
 }

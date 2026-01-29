@@ -67,9 +67,9 @@ public class Principal {
                 case 4:
                     listarAutoresVivos();
                     break;
-//                case 5:
-//                    listarIdiomaDoLivro();
-//                    break;
+                case 5:
+                    listarIdiomaDoLivro();
+                    break;
                 case 0:
                     System.out.println("Finalizando a aplicação...");
                     break;
@@ -171,29 +171,31 @@ public class Principal {
             scanner.nextLine(); // Limpa o buffer em caso de erro
         }
     }
-//
-//    private void listarIdiomaDoLivro() {
-//        System.out.println("Insira o idioma para realizar a busca: ");
-//        System.out.println( """
-//                          es - espanhol
-//                          en - inglês
-//                          fr - francês
-//                          pt - português
-//                          """);
-//        var opcaoIdioma = scanner.nextLine().trim().toLowerCase();
-//
-//        try {
-//            Idioma idioma = Idioma.fromString(opcaoIdioma);
-//            List<Livro> livrosPorIdioma = repositorio.findByIdiomaLivro(idioma);
-//
-//            if (livrosPorIdioma.isEmpty()) {
-//                System.out.println("\nNão existem livros registrados no idioma: " + opcaoIdioma);
-//            } else {
-//                livrosPorIdioma.forEach(System.out::println);
-//            }
-//
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("\nOpção de idioma inválida! Escolha entre es, en, fr ou pt\n");
-//        }
-//    }
+
+    private void listarIdiomaDoLivro() {
+        System.out.println("Insira o idioma para realizar a busca: ");
+        System.out.println( """
+                          es - espanhol
+                          en - inglês
+                          fr - francês
+                          pt - português
+                          """);
+        var opcaoIdioma = scanner.nextLine().trim().toLowerCase();
+
+        try {
+            Idioma idioma = Idioma.fromString(opcaoIdioma);
+
+            // Solicita a lista ao service
+            List<Livro> livrosPorIdioma = livroService.listarLivrosPorIdioma(idioma);
+
+            if (livrosPorIdioma.isEmpty()) {
+                System.out.println("\nNão existem livros registrados no idioma: " + opcaoIdioma);
+            } else {
+                livrosPorIdioma.forEach(System.out::println);
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nOpção de idioma inválida! Escolha entre es, en, fr ou pt\n");
+        }
+    }
 }
